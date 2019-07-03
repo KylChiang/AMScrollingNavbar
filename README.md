@@ -1,3 +1,16 @@
+# Objective-C Supporting :tada:
+- Minmum version request: iOS 11.0 above
+- Developing from the AMScrollingNavbar v1.5.1.
+
+```
+Thank you "AMScrollingNavbar" team & andreamazz!
+
+
+```
+
+
+
+---
 <p align="center">
   <img width="420" height="240" src="assets/logo.png"/>
 </p>
