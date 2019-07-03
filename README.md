@@ -1,6 +1,8 @@
 # Objective-C Supporting :tada:
 - Minmum version request: iOS 11.0 above
 - Developing from the AMScrollingNavbar v1.5.1.
+- Please check out branch "dev_objc".
+
 
 ```
 Thank you "AMScrollingNavbar" team & andreamazz!
