@@ -171,19 +171,19 @@
 
 - (float)deltaLimit {
     if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad || IS_IPHONE_6_PLUS) {
-        return [self portraitNavbar] - [self statusBarHeight];
+        return [self portraitNavbarHeight] - [self statusBarHeight];
     } else {
         return (UIInterfaceOrientationIsPortrait([[UIApplication sharedApplication] statusBarOrientation]) ?
-                [self portraitNavbar] - [self statusBarHeight]:
-                [self landscapeNavbar] - [self statusBarHeight]);
+                [self portraitNavbarHeight] - [self statusBarHeight]:
+                [self landscapeNavbarHeight] - [self statusBarHeight]);
     }
 }
 
-- (float)portraitNavbar {
+- (float)portraitNavbarHeight {
     return 44 + ((self.navigationItem.prompt != nil) ? 30 : 0);
 }
 
-- (float)landscapeNavbar {
+- (float)landscapeNavbarHeight {
     return 32 + ((self.navigationItem.prompt != nil) ? 22 : 0);
 }
 
@@ -193,11 +193,11 @@
 
 - (float)navbarHeight {
     if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad || IS_IPHONE_6_PLUS) {
-        return [self portraitNavbar] + [self statusBarHeight];
+        return [self portraitNavbarHeight] + [self statusBarHeight];
     } else {
         return (UIInterfaceOrientationIsPortrait([[UIApplication sharedApplication] statusBarOrientation]) ?
-                [self portraitNavbar] + [self statusBarHeight] :
-                [self landscapeNavbar] + [self statusBarHeight]);
+                [self portraitNavbarHeight] + [self statusBarHeight] :
+                [self landscapeNavbarHeight] + [self statusBarHeight]);
     }
 }
 
