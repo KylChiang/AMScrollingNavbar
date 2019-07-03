@@ -107,7 +107,7 @@
     /* The navbar fadeout is achieved using an overlay view with the same barTintColor.
      this might be improved by adjusting the alpha component of every navbar child */
     CGRect frame = self.navigationController.navigationBar.frame;
-    frame.size = CGSizeMake(frame.size.width, [self navbarHeight] - [self statusBar]);
+    frame.size = CGSizeMake(frame.size.width, [self navbarHeight] - [self statusBarHeight]);
     frame.origin = CGPointZero;
 
     if (!self.overlay) {
@@ -171,11 +171,11 @@
 
 - (float)deltaLimit {
     if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad || IS_IPHONE_6_PLUS) {
-        return [self portraitNavbar] - [self statusBar];
+        return [self portraitNavbar] - [self statusBarHeight];
     } else {
         return (UIInterfaceOrientationIsPortrait([[UIApplication sharedApplication] statusBarOrientation]) ?
-                [self portraitNavbar] - [self statusBar]:
-                [self landscapeNavbar] - [self statusBar]);
+                [self portraitNavbar] - [self statusBarHeight]:
+                [self landscapeNavbar] - [self statusBarHeight]);
     }
 }
 
@@ -187,17 +187,17 @@
     return 32 + ((self.navigationItem.prompt != nil) ? 22 : 0);
 }
 
-- (float)statusBar {
+- (float)statusBarHeight {
     return ([[UIApplication sharedApplication] isStatusBarHidden]) ? 0 : 20;
 }
 
 - (float)navbarHeight {
     if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad || IS_IPHONE_6_PLUS) {
-        return [self portraitNavbar] + [self statusBar];
+        return [self portraitNavbar] + [self statusBarHeight];
     } else {
         return (UIInterfaceOrientationIsPortrait([[UIApplication sharedApplication] statusBarOrientation]) ?
-                [self portraitNavbar] + [self statusBar] :
-                [self landscapeNavbar] + [self statusBar]);
+                [self portraitNavbar] + [self statusBarHeight] :
+                [self landscapeNavbar] + [self statusBarHeight]);
     }
 }
 
@@ -369,13 +369,13 @@
             return;
         }
 
-        if (frame.origin.y - delta > self.statusBar) {
-            delta = frame.origin.y - self.statusBar;
+        if (frame.origin.y - delta > self.statusBarHeight) {
+            delta = frame.origin.y - self.statusBarHeight;
         }
         frame.origin.y = MIN(20, frame.origin.y - delta);
         self.navigationController.navigationBar.frame = frame;
 
-        if (frame.origin.y == self.statusBar) {
+        if (frame.origin.y == self.statusBarHeight) {
             self.expanded = YES;
             self.collapsed = NO;
         }
@@ -437,11 +437,11 @@
     __block CGRect frame = self.navigationController.navigationBar.frame;
 
     // Get back down
-    if (pos >= (self.statusBar - frame.size.height / 2)) {
-        CGFloat delta = frame.origin.y - self.statusBar;
+    if (pos >= (self.statusBarHeight - frame.size.height / 2)) {
+        CGFloat delta = frame.origin.y - self.statusBarHeight;
         NSTimeInterval duration = ABS((delta / (frame.size.height / 2)) * 0.2);
         [UIView animateWithDuration:duration delay:0 options:UIViewAnimationOptionBeginFromCurrentState animations:^{
-            frame.origin.y = self.statusBar;
+            frame.origin.y = self.statusBarHeight;
             self.navigationController.navigationBar.frame = frame;
 
             self.expanded = YES;
