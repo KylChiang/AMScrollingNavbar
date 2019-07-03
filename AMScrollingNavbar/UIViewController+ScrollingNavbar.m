@@ -8,6 +8,7 @@
 
 #define IS_IPHONE_6_PLUS [UIScreen mainScreen].scale == 3
 #define SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(v)  ([[[UIDevice currentDevice] systemVersion] compare:v options:NSNumericSearch] != NSOrderedAscending)
+#define SAFE_AREA_TOP_HEIGHT 24.0
 
 #import "UIViewController+ScrollingNavbar.h"
 #import <objc/runtime.h>
@@ -169,15 +170,8 @@
     [self updateSizingWithDelta:0];
 }
 
-- (CGFloat)navbarFullHeight {
+- (CGFloat)navbarFullHeight {   // Naming by Swift version.
     return [self.navigationController.navigationBar frame].size.height - [self statusBarHeight];
-//    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad || IS_IPHONE_6_PLUS) {
-//        return [self portraitNavbarHeight] - [self statusBarHeight];
-//    } else {
-//        return (UIInterfaceOrientationIsPortrait([[UIApplication sharedApplication] statusBarOrientation]) ?
-//                [self portraitNavbarHeight] - [self statusBarHeight]:
-//                [self landscapeNavbarHeight] - [self statusBarHeight]);
-//    }
 }
 
 - (CGFloat)statusBarHeight {
@@ -187,19 +181,11 @@
     } else {
         height = [[UIApplication sharedApplication] statusBarFrame].size.height;
     }
-    
     return MAX(height - [self extendedStatusBarDifference], 0);
 }
 
 - (CGFloat)navbarHeight {
     return [self.navigationController.navigationBar frame].size.height + [self statusBarHeight];
-//    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad || IS_IPHONE_6_PLUS) {
-//        return [self portraitNavbarHeight] + [self statusBarHeight];
-//    } else {
-//        return (UIInterfaceOrientationIsPortrait([[UIApplication sharedApplication] statusBarOrientation]) ?
-//                [self portraitNavbarHeight] + [self statusBarHeight] :
-//                [self landscapeNavbarHeight] + [self statusBarHeight]);
-//    }
 }
 
 - (CGFloat)extendedStatusBarDifference {
@@ -208,7 +194,6 @@
     UIView *superView = nextView.superview;
     if (superView) {
         appHeight = superView.bounds.size.height;
-        nextView = superView.superview;
     }
     CGFloat screenHeight = UIApplication.sharedApplication.delegate.window.frame.size.height;
     CGFloat diff = appHeight - (screenHeight ? screenHeight : UIScreen.mainScreen.bounds.size.height) ;
@@ -386,7 +371,7 @@
         if (frame.origin.y - scrollDelta > self.statusBarHeight) {
             scrollDelta = frame.origin.y - self.statusBarHeight;
         }
-        frame.origin.y = MIN(20, frame.origin.y - scrollDelta);
+        frame.origin.y = MIN(20.0 + SAFE_AREA_TOP_HEIGHT, frame.origin.y - scrollDelta);
         self.navigationController.navigationBar.frame = frame;
 
         if (frame.origin.y >= self.statusBarHeight) {
